@@ -67,6 +67,7 @@ namespace CapaDatos
 
                 var query = "sp_UpdateCliente";
                 var param = new DynamicParameters();
+                param.Add("@nIdCliente", oCliente.nIdCliente);
                 param.Add("@cNombre", oCliente.cNombre);
                 param.Add("@cApellido", oCliente.cApellido);
                 param.Add("@cDireccion", oCliente.cDireccion);
@@ -86,11 +87,8 @@ namespace CapaDatos
 
                 var query = "sp_DeleteCliente";
                 var param = new DynamicParameters();
-                param.Add("@cNombre", oCliente.cNombre);
-                param.Add("@cApellido", oCliente.cApellido);
-                param.Add("@cDireccion", oCliente.cDireccion);
-                param.Add("@cEmail", oCliente.cEmail);
-                param.Add("@cTelefono", oCliente.cTelefono);
+                param.Add("@nIdCliente", oCliente.nIdCliente);
+
                 //param.Add("@dFechaNacimiento", oCliente.dFechaNacimiento);                
                 return (int)SqlMapper.ExecuteScalar(connection, query, param, commandType: CommandType.StoredProcedure);
             }

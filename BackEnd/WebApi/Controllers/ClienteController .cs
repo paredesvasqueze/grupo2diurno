@@ -35,7 +35,7 @@ namespace WebApi.Controllers
             var id = _ClienteDomain.ActualizarCliente(oCliente);
             return Ok(id);
         }
-        [HttpPut("EliminarCliente")]
+        [HttpDelete("EliminarCliente")]
         public IActionResult EliminarCliente(Cliente oCliente)
         {
             var id = _ClienteDomain.EliminarCliente(oCliente);

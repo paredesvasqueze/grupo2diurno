@@ -1,4 +1,4 @@
-cREATE PROCEDURE sp_UpdateCliente
+create PROCEDURE sp_UpdateCliente
     @nIdCliente INT,
     @cNombre VARCHAR(255),
     @cApellido VARCHAR(255),

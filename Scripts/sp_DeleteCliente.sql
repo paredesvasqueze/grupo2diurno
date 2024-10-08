@@ -1,4 +1,4 @@
-CREATE PROCEDURE sp_DeleteCliente
+alter PROCEDURE sp_DeleteCliente
     @nIdCliente INT
 AS
 BEGIN

@@ -22,6 +22,9 @@ builder.Services.AddScoped<ClienteDomain>();
 builder.Services.AddScoped<CategoriaRepository>();
 builder.Services.AddScoped<CategoriaDomain>();
 
+builder.Services.AddScoped<ProductoRepository>();
+builder.Services.AddScoped<ProductoDomain>();
+
 // Registrar los controladores
 builder.Services.AddControllers();
 

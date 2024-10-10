@@ -31,6 +31,15 @@ builder.Services.AddScoped<RolDomain>();
 builder.Services.AddScoped<UsuarioRepository>();
 builder.Services.AddScoped<UsuarioDomain>();
 
+builder.Services.AddScoped<OrdenRepository>();
+builder.Services.AddScoped<OrdenDomain>();
+
+builder.Services.AddScoped<DetalleOrdenRepository>();
+builder.Services.AddScoped<DetalleOrdenDomain>();
+
+builder.Services.AddScoped<KardexRepository>();
+builder.Services.AddScoped<KardexDomain>();
+
 // Registrar los controladores
 builder.Services.AddControllers();
 

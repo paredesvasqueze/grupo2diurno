@@ -70,6 +70,7 @@ namespace CapaDatos
                 var query = "sp_UpdateUsuario";
                 var param = new DynamicParameters();
                 param.Add("@nIdUsuario", oUsuario.nIdUsuario);
+                param.Add("@cNombreUsuario", oUsuario.cNombreUsuario);
                 param.Add("@cContrasenaHash", oUsuario.cContrasenaHash);
                 param.Add("@cNombreCompleto", oUsuario.cNombreCompleto);
                 param.Add("@dtFechaCreacion", oUsuario.dtFechaCreacion);

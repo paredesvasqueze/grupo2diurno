@@ -12,7 +12,19 @@ namespace CapaDomain
 
             _ProductoRepository = ProductoRepository;
         }
+        public Producto GetProductoId(int nIdProducto)
+        {
+            try
+            {
+                return _ProductoRepository.GetProductoId(nIdProducto);
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+
+        }
         public IEnumerable<Producto> ObtenerProductoTodos()
         {
             try

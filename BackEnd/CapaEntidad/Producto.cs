@@ -8,6 +8,7 @@
         public double  nPrecio { get; set; }
         public string? cTalla { get; set; }
         public int nIdCategoria{ get; set; }
+        public string? cNombreCategoria { get; set; }
 
     }
 }

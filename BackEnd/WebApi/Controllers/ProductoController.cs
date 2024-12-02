@@ -48,6 +48,11 @@ namespace WebApi.Controllers
             var id = _ProductoDomain.EliminarProducto(producto);
             return Ok(id);
         }
+
+
+
+
+
         [HttpGet("GetProductoId/{nIdProducto}")]
         public IActionResult GetProductoId(int nIdProducto)
         {

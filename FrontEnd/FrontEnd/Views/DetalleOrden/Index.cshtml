@@ -1,0 +1,216 @@
+﻿@model IEnumerable<DetalleOrden>
+@{
+    ViewData["Title"] = "Listado de Detalles de Órdenes";
+    Layout = "~/Views/Shared/_LayoutDashBoard.cshtml";
+}
+
+<h2>Listado de Detalles de Órdenes</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID Detalle</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Nombre Producto</th>
+            <th>Orden</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.nIdDetalleorden</td>
+                <td>@item.nCantidad</td>
+                <td>@item.nPrecioUnitario</td>
+                <td>@item.cNombreProducto</td>
+                <td>@item.cOrden</td>
+                <td>
+                    <button class="btn btn-warning" onclick="openEditModal(@item.nIdDetalleorden, @item.nCantidad, @item.nPrecioUnitario, @item.nIdProducto, @item.nIdOrden)">Editar</button>
+                    <button class="btn btn-danger" onclick="deleteDetalleOrden(@item.nIdDetalleorden)">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button class="btn btn-primary" onclick="openModal()">Nuevo</button>
+
+<!-- Modal -->
+<div class="modal fade" id="newDetalleOrdenModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Nuevo Detalle de Orden</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="newDetalleOrdenForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad</label>
+                        <input type="number" class="form-control" id="cantidad" name="nCantidad" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="precioUnitario">Precio Unitario</label>
+                        <input type="number" class="form-control" step="0.01" id="precioUnitario" name="nPrecioUnitario" required>
+                    </div>
+                 
+
+                    <div class="form-group">
+                        <label for="idProducto">Producto</label>
+                        <select id="idProducto" name="idProducto" class="form-control" required>
+                            <option value="">Seleccione Producto</option>
+                            @foreach (var producto in ViewBag.Productos as IEnumerable<Producto>)
+                            {
+                                <option value="@producto.nIdProducto">@producto.cNombre</option>
+                            }
+                        </select>
+                    </div>
+                    
+
+                    <div class="form-group">
+                        <label for="idOrden">Venta</label>
+                        <select id="idOrden" name="idOrden" class="form-control" required>
+                            <option value="">Seleccione una Orden</option>
+                            @foreach (var categoria in ViewBag.Ordenes as IEnumerable<Orden>)
+                            {
+                                <option value="@categoria.nIdOrden">@categoria.cNombreCliente+@categoria.dFecha.ToString() </option>
+                            }
+                        </select>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="submitDetalleOrden()">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Editar -->
+<div class="modal fade" id="editDetalleOrdenModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalTitle">Editar Detalle de Orden</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editDetalleOrdenForm">
+                <input type="hidden" id="editId" />
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editCantidad">Cantidad</label>
+                        <input type="number" class="form-control" id="editCantidad" name="nCantidad" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPrecioUnitario">Precio Unitario</label>
+                        <input type="number" class="form-control" step="0.01" id="editPrecioUnitario" name="nPrecioUnitario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editIdProducto">ID Producto</label>
+                        <input type="number" class="form-control" id="editIdProducto" name="nIdProducto" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editIdOrden">ID Orden</label>
+                        <input type="number" class="form-control" id="editIdOrden" name="nIdOrden" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="submitEditDetalleOrden()">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openModal() {
+            $('#newDetalleOrdenModal').modal('show');
+        }
+
+        function openEditModal(id, cantidad, precioUnitario, idProducto, idOrden) {
+            document.getElementById('editId').value = id;
+            document.getElementById('editCantidad').value = cantidad;
+            document.getElementById('editPrecioUnitario').value = precioUnitario;
+            document.getElementById('editIdProducto').value = idProducto;
+            document.getElementById('editIdOrden').value = idOrden;
+
+            $('#editDetalleOrdenModal').modal('show');
+        }
+
+        function submitDetalleOrden() {
+            const data = {
+                nCantidad: document.getElementById('cantidad').value,
+                nPrecioUnitario: document.getElementById('precioUnitario').value,
+                nIdProducto: document.getElementById('idProducto').value,
+                nIdOrden: document.getElementById('idOrden').value
+            };
+
+            fetch('/DetalleOrden', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Error al crear el detalle.');
+                    }
+                });
+        }
+
+        function submitEditDetalleOrden() {
+            const data = {
+                nIdDetalleorden: document.getElementById('editId').value,
+                nCantidad: document.getElementById('editCantidad').value,
+                nPrecioUnitario: document.getElementById('editPrecioUnitario').value,
+                nIdProducto: document.getElementById('editIdProducto').value,
+                nIdOrden: document.getElementById('editIdOrden').value
+            };
+
+            fetch('/DetalleOrden', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Error al actualizar el detalle.');
+                    }
+                });
+        }
+
+        function deleteDetalleOrden(id) {
+            if (confirm("¿Estás seguro de que deseas eliminar este detalle?")) {
+                fetch(`/DetalleOrden/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            alert('Error al eliminar el detalle.');
+                        }
+                    });
+            }
+        }
+    </script>
+}
+

@@ -46,6 +46,18 @@ builder.Services.AddHttpClient<CategoriaService>();
 builder.Services.AddScoped<CategoriaService>();
 builder.Services.AddHttpClient<ProductoService>();
 builder.Services.AddScoped<ProductoService>();
+builder.Services.AddHttpClient<UsuarioService>();
+builder.Services.AddScoped<UsuarioService>();
+builder.Services.AddHttpClient<RolService>();
+builder.Services.AddScoped<RolService>();
+builder.Services.AddHttpClient<OrdenService>();
+builder.Services.AddScoped<OrdenService>();
+builder.Services.AddHttpClient<DetalleOrdenService>();
+builder.Services.AddScoped<DetalleOrdenService>();
+builder.Services.AddHttpClient<KardexService>();
+builder.Services.AddScoped<KardexService>();
+builder.Services.AddHttpClient<ClienteService>();
+builder.Services.AddScoped<ClienteService>();
 
 var app = builder.Build();
 

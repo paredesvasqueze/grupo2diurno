@@ -27,6 +27,20 @@ namespace CapaDomain
 
         }
 
+        public DetalleOrden ObtenerDetalleOrdenById(int nIdDetalleorden)
+        {
+            try
+            {
+                return _DetalleOrdenRepository.ObtenerDetalleOrdenById(nIdDetalleorden);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
         public int InsertarDetalleOrden(DetalleOrden oDetalleOrden)
         {
             try

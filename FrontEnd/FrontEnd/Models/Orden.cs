@@ -1,4 +1,4 @@
-﻿namespace CapaEntidad
+﻿namespace FrontEnd.Models
 {
     public class Orden
     {
@@ -8,9 +8,9 @@
         public double nTotal { get; set; }
         public int nIdUsuario { get; set; }
         public int nIdCliente { get; set; }
+
         public string? cNombreCliente { get; set; }
         public string? cNombreUsuario { get; set; }
-
 
     }
 }

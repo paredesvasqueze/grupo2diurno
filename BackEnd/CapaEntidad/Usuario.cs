@@ -12,6 +12,8 @@ namespace CapaEntidad
         public DateTime? dtUltimoAcceso { get; set; }
         public bool bActivo { get; set; }
         public int nIdRol { get; set; }
+        public string cDescripcionRol { get; set; }
+
 
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CapaEntidad
+﻿namespace FrontEnd.Models
 {
     public class DetalleOrden
     {
@@ -11,9 +11,6 @@
         public string? cNombreProducto { get; set; }
 
         public string? cOrden { get; set; }
-
-
-
 
     }
 }

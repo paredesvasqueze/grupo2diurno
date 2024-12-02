@@ -51,8 +51,8 @@ namespace CapaDatos
                 param.Add("@nStockActual", oKardex.nStockActual);
                 param.Add("@cTipoMovimiento", oKardex.cTipoMovimiento);
                 param.Add("@dFechaMovimiento ", oKardex.dFechaMovimiento);
-                param.Add("@nIdProducto", oKardex.nIdProducto);
-                param.Add("@nIdUsuario", oKardex.nIdUsuario);
+                param.Add("@nIdProducto", oKardex.cNombreProducto);
+                param.Add("@nIdUsuario", oKardex.cNombreUsuario);
                 //param.Add("@dFechaNacimiento", oKardex.dFechaNacimiento);                
                 return (int)SqlMapper.ExecuteScalar(connection, query, param, commandType: CommandType.StoredProcedure);
             }
@@ -73,8 +73,8 @@ namespace CapaDatos
                 param.Add("@nStockActual", oKardex.nStockActual);
                 param.Add("@cTipoMovimiento", oKardex.cTipoMovimiento);
                 param.Add("@dFechaMovimiento ", oKardex.dFechaMovimiento);
-                param.Add("@nIdProducto", oKardex.nIdProducto);
-                param.Add("@nIdUsuario", oKardex.nIdUsuario);
+                param.Add("@nIdProducto", oKardex.cNombreProducto);
+                param.Add("@nIdUsuario", oKardex.cNombreUsuario);
                 //param.Add("@dFechaNacimiento", oKardex.dFechaNacimiento);                
                 return (int)SqlMapper.ExecuteScalar(connection, query, param, commandType: CommandType.StoredProcedure);
             }

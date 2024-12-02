@@ -37,9 +37,10 @@ namespace WebApi.Controllers
             var id = _ClienteDomain.ActualizarCliente(oCliente);
             return Ok(id);
         }
-        [HttpDelete("EliminarCliente")]
-        public IActionResult EliminarCliente(Cliente oCliente)
+        [HttpDelete("EliminarCliente/{nIdCliente}")]
+        public IActionResult EliminarCliente(int nIdCliente)
         {
+            Cliente oCliente = new Cliente() { nIdCliente = nIdCliente };
             var id = _ClienteDomain.EliminarCliente(oCliente);
             return Ok(id);
         }

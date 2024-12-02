@@ -12,6 +12,7 @@ namespace WebApi.Controllers
     {
         private readonly OrdenDomain _OrdenDomain;
 
+
         public OrdenController(OrdenDomain OrdenDomain)
         {
             _OrdenDomain = OrdenDomain;
@@ -37,9 +38,11 @@ namespace WebApi.Controllers
             var id = _OrdenDomain.ActualizarOrden(oOrden);
             return Ok(id);
         }
-        [HttpDelete("EliminarOrden")]
-        public IActionResult EliminarOrden(Orden oOrden)
+        [HttpDelete("EliminarOrden/{nIdOrden}")]
+        public IActionResult EliminarOrden(int nIdOrden)
         {
+            Orden oOrden = new Orden() { nIdOrden = nIdOrden };
+
             var id = _OrdenDomain.EliminarOrden(oOrden);
             return Ok(id);
         }

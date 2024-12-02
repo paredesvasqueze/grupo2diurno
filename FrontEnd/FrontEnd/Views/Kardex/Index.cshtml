@@ -1,0 +1,220 @@
+﻿@model IEnumerable<Kardex>
+@{
+    ViewData["Title"] = "Listado de Movimientos de Kardex";
+    Layout = "~/Views/Shared/_LayoutDashBoard.cshtml";
+}
+
+<h2>Listado de Movimientos de Kardex</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID Kardex</th>
+            <th>Cantidad</th>
+            <th>Stock Actual</th>
+            <th>Tipo de Movimiento</th>
+            <th>Fecha Movimiento</th>
+            <th>Nombre de Producto</th>
+            <th>Nombre de  Usuario</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.nIdKardex</td>
+                <td>@item.nCantidad</td>
+                <td>@item.nStockActual</td>
+                <td>@item.cTipoMovimiento</td>
+                <td>@item.dFechaMovimiento.ToString("yyyy-MM-dd")</td>
+                <td>@item.cNombreProducto</td>
+                <td>@item.cNombreUsuario</td>
+                <td>
+                    <button class="btn btn-warning" onclick="openEditModal(@item.nIdKardex, @item.nCantidad, @item.nStockActual, '@item.cTipoMovimiento', '@item.dFechaMovimiento', @item.nIdProducto, @item.nIdUsuario)">Editar</button>
+                    <button class="btn btn-danger" onclick="deleteKardex(@item.nIdKardex)">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button class="btn btn-primary" onclick="openModal()">Nuevo Movimiento</button>
+
+<!-- Modal para Nuevo Movimiento -->
+<div class="modal fade" id="newKardexModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Nuevo Movimiento en Kardex</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="newKardexForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad</label>
+                        <input type="number" class="form-control" id="cantidad" name="nCantidad" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stockActual">Stock Actual</label>
+                        <input type="number" class="form-control" id="stockActual" name="nStockActual" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipoMovimiento">Tipo de Movimiento</label>
+                        <input type="text" class="form-control" id="tipoMovimiento" name="cTipoMovimiento" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaMovimiento">Fecha Movimiento</label>
+                        <input type="date" class="form-control" id="fechaMovimiento" name="dFechaMovimiento">
+                    </div>
+                    <div class="form-group">
+                        <label for="idProducto">ID Producto</label>
+                        <input type="number" class="form-control" id="idProducto" name="nIdProducto" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="idUsuario">ID Usuario</label>
+                        <input type="number" class="form-control" id="idUsuario" name="nIdUsuario" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="submitKardex()">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Editar Movimiento -->
+<div class="modal fade" id="editKardexModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalTitle">Editar Movimiento en Kardex</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editKardexForm">
+                <input type="hidden" id="editIdKardex" />
+                <div class="modal-body">
+                    <!-- Reutilizamos los campos con diferentes IDs -->
+                    <div class="form-group">
+                        <label for="editCantidad">Cantidad</label>
+                        <input type="number" class="form-control" id="editCantidad" name="nCantidad" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editStockActual">Stock Actual</label>
+                        <input type="number" class="form-control" id="editStockActual" name="nStockActual" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTipoMovimiento">Tipo de Movimiento</label>
+                        <input type="text" class="form-control" id="editTipoMovimiento" name="cTipoMovimiento" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editFechaMovimiento">Fecha Movimiento</label>
+                        <input type="date" class="form-control" id="editFechaMovimiento" name="dFechaMovimiento">
+                    </div>
+                    <div class="form-group">
+                        <label for="editIdProducto">ID Producto</label>
+                        <input type="number" class="form-control" id="editIdProducto" name="nIdProducto" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editIdUsuario">ID Usuario</label>
+                        <input type="number" class="form-control" id="editIdUsuario" name="nIdUsuario" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="submitEditKardex()">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openModal() {
+            $('#newKardexModal').modal('show');
+        }
+
+        function openEditModal(id, cantidad, stockActual, tipoMovimiento, fechaMovimiento, idProducto, idUsuario) {
+            document.getElementById('editIdKardex').value = id;
+            document.getElementById('editCantidad').value = cantidad;
+            document.getElementById('editStockActual').value = stockActual;
+            document.getElementById('editTipoMovimiento').value = tipoMovimiento;
+            document.getElementById('editFechaMovimiento').value = fechaMovimiento;
+            document.getElementById('editIdProducto').value = idProducto;
+            document.getElementById('editIdUsuario').value = idUsuario;
+
+            $('#editKardexModal').modal('show');
+        }
+
+        function submitKardex() {
+            const data = {
+                nCantidad: document.getElementById('cantidad').value,
+                nStockActual: document.getElementById('stockActual').value,
+                cTipoMovimiento: document.getElementById('tipoMovimiento').value,
+                dFechaMovimiento: document.getElementById('fechaMovimiento').value,
+                nIdProducto: document.getElementById('idProducto').value,
+                nIdUsuario: document.getElementById('idUsuario').value
+            };
+
+            fetch('/Kardex', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Error al crear el movimiento.');
+                }
+            });
+        }
+
+        function submitEditKardex() {
+            const data = {
+                nIdKardex: document.getElementById('editIdKardex').value,
+                nCantidad: document.getElementById('editCantidad').value,
+                nStockActual: document.getElementById('editStockActual').value,
+                cTipoMovimiento: document.getElementById('editTipoMovimiento').value,
+                dFechaMovimiento: document.getElementById('editFechaMovimiento').value,
+                nIdProducto: document.getElementById('editIdProducto').value,
+                nIdUsuario: document.getElementById('editIdUsuario').value
+            };
+
+            fetch('/Kardex', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Error al editar el movimiento.');
+                }
+            });
+        }
+
+        function deleteKardex(id) {
+            if (confirm('¿Estás seguro de eliminar este movimiento?')) {
+                fetch(`/Kardex/${id}`, { method: 'DELETE' })
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            alert('Error al eliminar el movimiento.');
+                        }
+                    });
+            }
+        }
+    </script>
+}

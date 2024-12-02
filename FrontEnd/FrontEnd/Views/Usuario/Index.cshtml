@@ -1,0 +1,208 @@
+﻿@model IEnumerable<Usuario>
+@{
+    ViewData["Title"] = "Listado de Usuarios";
+    Layout = "~/Views/Shared/_LayoutDashBoard.cshtml";
+}
+
+<h2>Listado de Usuarios</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID Usuario</th>
+            <th>Nombre Usuario</th>
+            <th>Nombre Completo</th>
+            <th>Fecha Creación</th>
+            <th>Último Acceso</th>
+            <th>Activo</th>
+            <th>Nombre Rol</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.nIdUsuario</td>
+                <td>@item.cNombreUsuario</td>
+                <td>@item.cNombreCompleto</td>
+                <td>@item.dtFechaCreacion?.ToString("dd/MM/yyyy")</td>
+                <td>@item.dtUltimoAcceso?.ToString("dd/MM/yyyy")</td>
+                <td>@(item.bActivo ? "Sí" : "No")</td>
+                <td>@item.cDescripcionRol</td>
+                <td>
+                    <button class="btn btn-warning" onclick="openEditModal(@item.nIdUsuario, '@item.cNombreUsuario', '@item.cNombreCompleto', @item.bActivo, @item.nIdRol)">Editar</button>
+                    <button class="btn btn-danger" onclick="deleteUsuario(@item.nIdUsuario)">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button class="btn btn-primary" onclick="openModal()">Nuevo</button>
+
+<!-- Modal para Nuevo Usuario -->
+<div class="modal fade" id="newUsuarioModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Nuevo Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="newUsuarioForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nombreUsuario">Nombre Usuario</label>
+                        <input type="text" class="form-control" id="nombreUsuario" name="cNombreUsuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombreCompleto">Nombre Completo</label>
+                        <input type="text" class="form-control" id="nombreCompleto" name="cNombreCompleto" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nIdRol">Rol</label>
+                        <select id="nIdRol" name="nIdRol" class="form-control" required>
+                            <option value="">Seleccione un rol</option>
+                            @foreach (var rol in ViewBag.Rol as IEnumerable<Rol>)
+                            {
+                                <option value="@rol.nIdRol">@rol.cDescripcion</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="activo" name="bActivo">
+                        <label class="form-check-label" for="activo">Activo</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="submitUsuario()">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Editar Usuario -->
+<div class="modal fade" id="editUsuarioModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalTitle">Editar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editUsuarioForm">
+                <input type="hidden" id="editId" />
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editNombreUsuario">Nombre Usuario</label>
+                        <input type="text" class="form-control" id="editNombreUsuario" name="cNombreUsuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editNombreCompleto">Nombre Completo</label>
+                        <input type="text" class="form-control" id="editNombreCompleto" name="cNombreCompleto" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editIdRol">ID Rol</label>
+                        <input type="number" class="form-control" id="editIdRol" name="nIdRol" required>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="editActivo" name="bActivo">
+                        <label class="form-check-label" for="editActivo">Activo</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="submitEditUsuario()">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openModal() {
+            $('#newUsuarioModal').modal('show');
+        }
+
+        function openEditModal(id, nombreUsuario, nombreCompleto, activo, idRol) {
+            document.getElementById('editId').value = id;
+            document.getElementById('editNombreUsuario').value = nombreUsuario;
+            document.getElementById('editNombreCompleto').value = nombreCompleto;
+            document.getElementById('editActivo').checked = activo;
+            document.getElementById('editIdRol').value = idRol;
+
+            $('#editUsuarioModal').modal('show');
+        }
+
+        function submitUsuario() {
+            const data = {
+                cNombreUsuario: document.getElementById('nombreUsuario').value,
+                cNombreCompleto: document.getElementById('nombreCompleto').value,
+                bActivo: document.getElementById('activo').checked,
+                //nIdRol: parseInt(document.getElementById('idRol').value)
+                nIdRol: parseInt(document.getElementById('nIdRol').value)
+            };
+
+            fetch('/Usuario', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Error al crear el usuario.');
+                    }
+                });
+        }
+
+        function submitEditUsuario() {
+            const data = {
+                nIdUsuario: parseInt(document.getElementById('editId').value),
+                cNombreUsuario: document.getElementById('editNombreUsuario').value,
+                cNombreCompleto: document.getElementById('editNombreCompleto').value,
+                bActivo: document.getElementById('editActivo').checked,
+                nIdRol: parseInt(document.getElementById('editIdRol').value)
+            };
+
+            fetch('/Usuario', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Error al actualizar el usuario.');
+                    }
+                });
+        }
+
+        function deleteUsuario(id) {
+            if (confirm("¿Estás seguro de que deseas eliminar este usuario?")) {
+                fetch(`/Usuario/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            alert('Error al eliminar el usuario.');
+                        }
+                    });
+            }
+        }
+    </script>
+}

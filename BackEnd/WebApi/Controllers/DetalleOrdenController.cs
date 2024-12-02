@@ -24,6 +24,12 @@ namespace WebApi.Controllers
             return Ok(DetalleOrdens);
         }
 
+        [HttpGet("ObtenerDetalleOrdenById/{nIdDetalleorden}")]
+        public IActionResult ObtenerDetalleOrdenById(int nIdDetalleorden)
+        {
+            var DetalleOrdens = _DetalleOrdenDomain.ObtenerDetalleOrdenById(nIdDetalleorden);
+            return Ok(DetalleOrdens);
+        }
 
         [HttpPost("InsertarDetalleOrden")]
         public IActionResult InsertarDetalleOrden(DetalleOrden oDetalleOrden)
@@ -37,9 +43,11 @@ namespace WebApi.Controllers
             var id = _DetalleOrdenDomain.ActualizarDetalleOrden(oDetalleOrden);
             return Ok(id);
         }
-        [HttpDelete("EliminarDetalleOrden")]
-        public IActionResult EliminarDetalleOrden(DetalleOrden oDetalleOrden)
+        [HttpDelete("EliminarDetalleOrden/{nIdDetalleorden}")]
+        public IActionResult EliminarDetalleOrden(int nIdDetalleorden)
         {
+            DetalleOrden oDetalleOrden = new DetalleOrden() { nIdDetalleorden = nIdDetalleorden };
+
             var id = _DetalleOrdenDomain.EliminarDetalleOrden(oDetalleOrden);
             return Ok(id);
         }

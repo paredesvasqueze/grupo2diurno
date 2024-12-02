@@ -37,9 +37,11 @@ namespace WebApi.Controllers
             var id = _UsuarioDomain.ActualizarUsuario(oUsuario);
             return Ok(id);
         }
-        [HttpDelete("EliminarUsuario")]
-        public IActionResult EliminarUsuario(Usuario oUsuario)
+        [HttpDelete("EliminarUsuario/{nIdUsuario}")]
+        public IActionResult EliminarUsuario(int nIdUsuario)
         {
+            Usuario oUsuario = new Usuario() { nIdUsuario = nIdUsuario };
+
             var id = _UsuarioDomain.EliminarUsuario(oUsuario);
             return Ok(id);
         }

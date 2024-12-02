@@ -39,6 +39,22 @@ namespace CapaDatos
             }
         }
 
+        public DetalleOrden ObtenerDetalleOrdenById(int nIdDetalleorden)
+        {
+            var DetalleOrdens = new List<DetalleOrden>();
+
+            using (var connection = _conexionSingleton.GetConnection())
+            {
+                connection.Open();
+                DetalleOrden lstFound = new DetalleOrden();
+                var query = "USP_GET_DetalleOrden_BY_Id";
+                var param = new DynamicParameters();
+                param.Add("@nIdDetalleorden", nIdDetalleorden, dbType: DbType.Int32);
+                lstFound = SqlMapper.QueryFirstOrDefault<DetalleOrden>(connection, query, param, commandType: CommandType.StoredProcedure);
+                return lstFound;
+            }
+        }
+
         public int InsertarDetalleOrden(DetalleOrden oDetalleOrden)
         {
             using (var connection = _conexionSingleton.GetConnection())

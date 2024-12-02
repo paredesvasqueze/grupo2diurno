@@ -37,9 +37,10 @@ namespace WebApi.Controllers
             var id = _RolDomain.ActualizarRol(oRol);
             return Ok(id);
         }
-        [HttpDelete("EliminarRol")]
-        public IActionResult EliminarRol(Rol oRol)
+        [HttpDelete("EliminarRol/{nIdRol}")]
+        public IActionResult EliminarRol(int nIdRol)
         {
+            Rol oRol = new Rol() { nIdRol = nIdRol };
             var id = _RolDomain.EliminarRol(oRol);
             return Ok(id);
         }

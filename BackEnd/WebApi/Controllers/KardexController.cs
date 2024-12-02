@@ -37,9 +37,10 @@ namespace WebApi.Controllers
             var id = _KardexDomain.ActualizarKardex(oKardex);
             return Ok(id);
         }
-        [HttpDelete("EliminarKardex")]
-        public IActionResult EliminarKardex(Kardex oKardex)
+        [HttpDelete("EliminarKardex/{nIdKardex}")]
+        public IActionResult EliminarKardex(int nIdKardex)
         {
+            Kardex oKardex = new Kardex() { nIdKardex = nIdKardex };
             var id = _KardexDomain.EliminarKardex(oKardex);
             return Ok(id);
         }

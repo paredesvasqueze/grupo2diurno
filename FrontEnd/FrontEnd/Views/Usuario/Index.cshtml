@@ -148,6 +148,7 @@
                 //nIdRol: parseInt(document.getElementById('idRol').value)
                 nIdRol: parseInt(document.getElementById('nIdRol').value)
             };
+            console.log(data);
 
             fetch('/Usuario', {
                 method: 'POST',
@@ -163,7 +164,11 @@
                         alert('Error al crear el usuario.');
                     }
                 });
+            
         }
+
+
+        
 
         function submitEditUsuario() {
             const data = {

@@ -10,6 +10,8 @@
         public int nIdCliente { get; set; }
         public string? cNombreCliente { get; set; }
         public string? cNombreUsuario { get; set; }
+       
+
 
 
     }

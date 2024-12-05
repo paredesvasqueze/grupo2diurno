@@ -131,12 +131,12 @@
                         <input type="date" class="form-control" id="editFechaMovimiento" name="dFechaMovimiento">
                     </div>
                     <div class="form-group">
-                        <label for="editIdProducto">ID Producto</label>
-                        <input type="number" class="form-control" id="editIdProducto" name="nIdProducto" required>
+                        <label for="editnIdProducto">ID Producto</label>
+                        <input type="number" class="form-control" id="editnIdProducto" name="nIdProducto" required>
                     </div>
                     <div class="form-group">
-                        <label for="editIdUsuario">ID Usuario</label>
-                        <input type="number" class="form-control" id="editIdUsuario" name="nIdUsuario" required>
+                        <label for="editnIdUsuario">ID Usuario</label>
+                        <input type="number" class="form-control" id="editnIdUsuario" name="nIdUsuario" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -154,14 +154,14 @@
             $('#newKardexModal').modal('show');
         }
 
-        function openEditModal(id, cantidad, stockActual, tipoMovimiento, fechaMovimiento, idProducto, idUsuario) {
+        function openEditModal(id, cantidad, stockActual, tipoMovimiento, fechaMovimiento, nidProducto, nidUsuario) {
             document.getElementById('editIdKardex').value = id;
             document.getElementById('editCantidad').value = cantidad;
             document.getElementById('editStockActual').value = stockActual;
             document.getElementById('editTipoMovimiento').value = tipoMovimiento;
             document.getElementById('editFechaMovimiento').value = fechaMovimiento;
-            document.getElementById('editIdProducto').value = idProducto;
-            document.getElementById('editIdUsuario').value = idUsuario;
+            document.getElementById('editidProducto').value = idProducto;
+            document.getElementById('editidUsuario').value = idUsuario;
 
             $('#editKardexModal').modal('show');
         }
@@ -172,8 +172,8 @@
                 nStockActual: document.getElementById('stockActual').value,
                 cTipoMovimiento: document.getElementById('tipoMovimiento').value,
                 dFechaMovimiento: document.getElementById('fechaMovimiento').value,
-                nIdProducto: document.getElementById('idProducto').value,
-                nIdUsuario: document.getElementById('idUsuario').value
+                nIdProducto: document.getElementById('nIdProducto').value,
+                nIdUsuario: document.getElementById('nIdUsuario').value
             };
 
             fetch('/Kardex', {
@@ -198,8 +198,8 @@
                 nStockActual: document.getElementById('editStockActual').value,
                 cTipoMovimiento: document.getElementById('editTipoMovimiento').value,
                 dFechaMovimiento: document.getElementById('editFechaMovimiento').value,
-                nIdProducto: document.getElementById('editIdProducto').value,
-                nIdUsuario: document.getElementById('editIdUsuario').value
+                nIdProducto: document.getElementById('editidProducto').value,
+                nIdUsuario: document.getElementById('editidUsuario').value
             };
 
             fetch('/Kardex', {
